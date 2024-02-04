@@ -7,13 +7,15 @@ namespace Todo.Models.TodoLists
     {
         public int TodoListId { get; }
         public string Title { get; }
+        public bool OrderByRank { get; set; }
         public ICollection<TodoItemSummaryViewmodel> Items { get; }
 
-        public TodoListDetailViewmodel(int todoListId, string title, ICollection<TodoItemSummaryViewmodel> items)
+        public TodoListDetailViewmodel(int todoListId, string title, bool orderByRank, ICollection<TodoItemSummaryViewmodel> items)
         {
             Items = items;
             TodoListId = todoListId;
             Title = title;
+            OrderByRank = orderByRank;
         }
     }
 }

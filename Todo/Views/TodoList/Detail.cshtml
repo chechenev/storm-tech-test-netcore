@@ -29,7 +29,25 @@
                 Hide completed
             </label>
         </li>
-        @foreach (var item in Model.Items.OrderBy(todo => todo.Importance))
+
+        <li class="list-group-item">
+            @if (Model.OrderByRank)
+            {
+                <div>Ordered by rank.</div>
+                <a asp-action="Detail" asp-controller="TodoList" asp-route-todoListId="@Model.TodoListId" asp-route-orderByRank="false">
+                    <strong>Order by importance</strong>
+                </a>
+            }
+            else
+            {
+                <div>Ordered by importance.</div>
+                <a asp-action="Detail" asp-controller="TodoList" asp-route-todoListId="@Model.TodoListId" asp-route-orderByRank="true">
+                    <strong>Order by rank</strong>
+                </a>
+            }
+        </li>
+
+        @foreach (var item in Model.Items)
         {
             string contextualClass;
             switch (item.Importance)
