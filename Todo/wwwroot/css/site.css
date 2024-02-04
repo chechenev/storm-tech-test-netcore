@@ -28,6 +28,14 @@ body {
     margin: 15px;
 }
 
+.createTodo-wrapper {
+    display: none;
+}
+
+.createTodo-wrapper__visible {
+    display: block;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

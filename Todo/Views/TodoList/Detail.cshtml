@@ -1,11 +1,15 @@
 ﻿@using Todo.Controllers
 @using Todo.Data.Entities
+@using Todo.Data
+@using Todo.Views.TodoItem
 @using Todo.Services
 @model Todo.Models.TodoLists.TodoListDetailViewmodel
 
 @{
     ViewData["Title"] = $"List: {Model.Title}";
 }
+
+@inject ApplicationDbContext dbContext
 
 @section Scripts {
     <script type="text/javascript" src="~/js/details.js"></script>
@@ -18,10 +22,52 @@
     <ul class="list-group">
 
         <li class="list-group-item">
-            <a asp-action="Create" asp-controller="TodoItem" asp-route-todoListId="@Model.TodoListId">
-                <strong>Add New Item</strong>
-            </a>
+            <div class="form-group">
+                <button type="button" id="createNewItemButton" class="btn btn-default">Create new item</button>
+            </div>
         </li>
+
+         <section class="createTodo-wrapper">
+            <form method="post" name="createTodo">
+
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(m => m.TodoItemCreateFields.TodoListTitle)
+                @Html.HiddenFor(m => m.TodoItemCreateFields.TodoListId)
+
+                <div class="form-group">
+                    <label asp-for="TodoItemCreateFields.Title"></label>
+                    <input asp-for="TodoItemCreateFields.Title" class="form-control" />
+                    <span asp-validation-for="TodoItemCreateFields.Title" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="TodoItemCreateFields.Importance"></label>
+                    @Html.DropDownListFor(
+                        m => m.TodoItemCreateFields.Importance,
+                        SelectListConvenience.ImportanceSelectListItems,
+                        new {@class="form-control"}
+                        )
+                    <span asp-validation-for="TodoItemCreateFields.Importance" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TodoItemCreateFields.ResponsiblePartyId"></label>
+                    @Html.DropDownListFor(
+                        m => m.TodoItemCreateFields.ResponsiblePartyId,
+                        dbContext.UserSelectListItems(),
+                        new {@class="form-control"}
+                        )
+                    <span asp-validation-for="TodoItemCreateFields.ResponsiblePartyId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Save</button>
+                </div>
+
+            </form>
+        </section>
 
         <li class="list-group-item">
              <label>
