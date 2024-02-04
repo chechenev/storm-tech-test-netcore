@@ -6,3 +6,10 @@ I made changes in `Views/TodoList/Detail.cshtml`, when at the same time I could 
 1. It was specifiacily mentioned in the task
 2. We might want to reuse "default" ordering in different places of the app
 
+| 5 | On the details page, add an option to hide items that are marked as done. |
+
+I thgouht about a few options here:
+1. Add the logic on the frontend side
+2. Add something like "isCompleted" to Model/Controller, pass it as a new variable
+
+I chose first option (frontend side) to avoid unnecessary backend logic when it's only about UI part. So my idea is to render all todo items, serialize array to JS, and then filter completed todo items.

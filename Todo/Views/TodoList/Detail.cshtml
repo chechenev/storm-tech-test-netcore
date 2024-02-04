@@ -7,6 +7,10 @@
     ViewData["Title"] = $"List: {Model.Title}";
 }
 
+@section Scripts {
+    <script type="text/javascript" src="~/js/details.js"></script>
+}
+
 <h2>@ViewData["Title"]</h2>
 
 <div class="col-md-6">
@@ -19,6 +23,12 @@
             </a>
         </li>
 
+        <li class="list-group-item">
+             <label>
+                <input class="form-check-input me-1" type="checkbox" id="hideCompletedToggle" value="">
+                Hide completed
+            </label>
+        </li>
         @foreach (var item in Model.Items.OrderBy(todo => todo.Importance))
         {
             string contextualClass;
@@ -35,7 +45,7 @@
                     break;
             }
 
-            <li class="list-group-item @contextualClass">
+            <li class="list-group-item @contextualClass" id="item-@item.TodoItemId">
                 
                 <div class="row">
 
@@ -67,3 +77,7 @@
         }
     </ul>
 </div>
+
+<script type="text/javascript">
+    const todoItems = @Json.Serialize(Model.Items);
+</script>    
