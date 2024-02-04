@@ -23,11 +23,19 @@ namespace Todo.Controllers
             this.userStore = userStore;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = User.Id();
             var todoLists = dbContext.RelevantTodoLists(userId);
             var viewmodel = TodoListIndexViewmodelFactory.Create(todoLists);
+            var currentUser = await userStore.FindByIdAsync(userId, CancellationToken.None);
+
+            var (name, avatarUrl) = await GravatarService.GetProfileInfo(currentUser.Email);
+
+            viewmodel.UserName = name;
+            viewmodel.Email = currentUser.Email;
+            viewmodel.AvatarUrl = avatarUrl;
+
             return View(viewmodel);
         }
 

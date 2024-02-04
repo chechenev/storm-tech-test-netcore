@@ -7,10 +7,11 @@ namespace Todo.EntityModelMappers.TodoLists
 {
     public static class TodoListSummaryViewmodelFactory
     {
-        public static TodoListSummaryViewmodel Create(TodoList todoList)
+        public static TodoListSummaryViewmodel Create(TodoList todoList, string avatarUrl)
         {
             var numberOfNotDoneItems = todoList.Items.Count(ti => !ti.IsDone);
-            return new TodoListSummaryViewmodel(todoList.TodoListId, todoList.Title, numberOfNotDoneItems, UserSummaryViewmodelFactory.Create(todoList.Owner));
+            var owner = UserSummaryViewmodelFactory.Create(todoList.Owner, avatarUrl);
+            return new TodoListSummaryViewmodel(todoList.TodoListId, todoList.Title, numberOfNotDoneItems, owner);
         }
     }
 }
