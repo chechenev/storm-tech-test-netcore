@@ -2,6 +2,8 @@ const hideCompletedToggle = document.querySelector('#hideCompletedToggle');
 const createNewItemButton = document.querySelector('#createNewItemButton');
 const createNewItemFormWrapper = document.querySelector('.createTodo-wrapper');
 const createNewItemForm = document.querySelector('[name="createTodo"]');
+const createTodoSuccessMessage = document.querySelector('#createTodoSuccessMessage');
+const createTodoErrorMessage = document.querySelector('#createTodoErrorMessage');
 
 const mapImportanceToEnum = {
     'High': 0,
@@ -36,9 +38,11 @@ const createNewItemFormSubmitHandler = async (e) => {
         TodoListId: document.getElementById('TodoItemCreateFields_TodoListId').value
     }
 
-    console.log('formData', formData)
-
     if (formData.Title.trim() !== '') {
+        // hide alerts in the beginning of the request    
+        createTodoSuccessMessage.classList.add('hidden')
+        createTodoErrorMessage.classList.add('hidden');
+
         try {
             const response = await fetch("/api/TodoItemApi", {
               method: "POST",
@@ -48,10 +52,15 @@ const createNewItemFormSubmitHandler = async (e) => {
               body: JSON.stringify(formData),
             });
             const result = await response.json();
-            console.log("Success:", result);
+            if (!response.ok) {
+                throw new Error(JSON.stringify(result.errors))    
+            } else {
+                createTodoSuccessMessage.classList.remove('hidden');
+            }
           } 
           catch (error) {
-            console.error("Error:", error);
+            createTodoErrorMessage.textContent =`Something went wrong: ${error}`
+            createTodoErrorMessage.classList.remove('hidden');
           }
     }
 

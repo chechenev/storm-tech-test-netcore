@@ -24,10 +24,7 @@
         <li class="list-group-item">
             <div class="form-group">
                 <button type="button" id="createNewItemButton" class="btn btn-default">Create new item</button>
-            </div>
-        </li>
-
-         <section class="createTodo-wrapper">
+                <section class="createTodo-wrapper">
             <form method="post" name="createTodo">
 
                 @Html.AntiForgeryToken()
@@ -68,6 +65,17 @@
 
             </form>
         </section>
+
+        <div class="alert alert-success hidden" id="createTodoSuccessMessage" role="alert">
+            New todo item was succesfully created! <a href="javascript:window.location.reload();">Click here to reload the page</a>.
+        </div>
+
+        <div class="alert alert-danger hidden" id="createTodoErrorMessage" role="alert">
+            Something went wrong. Error message:
+        </div>
+            
+            </div>
+        </li>
 
         <li class="list-group-item">
              <label>
